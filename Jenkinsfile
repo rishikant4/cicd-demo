@@ -33,5 +33,19 @@ pipeline {
 	echo 'Maven Build Completed'
 	}
 	}
+	stage('Unit Test & Reports Publishing') {
+            steps {
+                script {
+                    sh "${env.mvntest}"
+                    echo 'Unit Testing Completed'
+                }
+            }
+            post {
+                success {
+                        junit "$utest_url"
+                        jacoco()
+                }
+            }
+        }
   }
 }
